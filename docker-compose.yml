@@ -1,16 +1,25 @@
 version: "3.9"
 
+# Postgres: pgvector image. User/password/db must match DATABASE_URL (password uses %23 for # in URLs).
+x-postgres-env: &postgres-env
+  POSTGRES_USER: gaurav
+  POSTGRES_PASSWORD: "Ga2001pillu14##"
+  POSTGRES_DB: botgpt
+
 services:
   postgres:
-    image: postgres:16
+    image: pgvector/pgvector:pg16
     environment:
-      POSTGRES_DB: botgpt
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      <<: *postgres-env
     ports:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U gaurav -d botgpt"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   redis:
     image: redis:7
@@ -22,11 +31,17 @@ services:
     container_name: botgpt-backend
     env_file:
       - .env
+    environment:
+      # Override for in-container networking (host must be service name `postgres`, not localhost)
+      DATABASE_URL: postgresql+psycopg2://gaurav:Ga2001pillu14%23%23@postgres:5432/botgpt
+      REDIS_URL: redis://redis:6379/0
     ports:
       - "8000:8000"
     depends_on:
-      - postgres
-      - redis
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
     volumes:
       - ./backend:/app
 
