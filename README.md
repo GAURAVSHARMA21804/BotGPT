@@ -2,7 +2,7 @@
 
 Production-grade backend for a turn-based chatbot supporting two modes:
 
-- **Open Chat Mode** — general conversation with external LLM  
+- **Open Chat Mode** — general conversation with external LLM
 - **Grounded Chat / RAG Mode** — conversation grounded in user-uploaded documents (PDFs, articles) using Retrieval-Augmented Generation
 
 Fully satisfies REST CRUD requirements, conversation persistence, token-aware context management, user-scoped data (JWT auth), and scalable architecture thinking.
@@ -24,17 +24,17 @@ Fully satisfies REST CRUD requirements, conversation persistence, token-aware co
 
 ## Tech Stack
 
-| Layer              | Technology                          | Purpose                                      |
-|--------------------|-------------------------------------|----------------------------------------------|
-| Backend            | FastAPI (Python 3.12+)              | Async REST API, auto docs, Pydantic validation |
-| Database           | PostgreSQL 17 + pgvector            | ACID + built-in vector search for RAG        |
-| Cache              | Redis                               | Hot chunk cache, rate limiting               |
-| Storage            | AWS S3 / Supabase Storage           | Raw document files (PDFs)                    |
-| Authentication     | JWT Bearer                          | User-scoped conversations & documents        |
-| LLM                | External API (OpenAI GPT-4o / Grok / Claude) | Generation & embeddings                   |
-| Document Parsing   | LlamaParse (design)                 | Tables, images, layout-aware extraction      |
-| Embeddings         | Cohere embed-v4 (multilingual)      | Cross-lingual semantic search                |
-| Re-ranking         | Cohere rerank-3                     | Precision boost & hallucination reduction    |
-| CI / Deployment    | GitHub Actions · Docker             | Lint, test, build pipeline                   |
+| Layer            | Technology                                   | Purpose                                        |
+| ---------------- | -------------------------------------------- | ---------------------------------------------- |
+| Backend          | FastAPI (Python 3.12+)                       | Async REST API, auto docs, Pydantic validation |
+| Database         | PostgreSQL 17 + pgvector                     | ACID + built-in vector search for RAG          |
+| Cache            | Redis                                        | Hot chunk cache, rate limiting                 |
+| Storage          | AWS S3 / Supabase Storage                    | Raw document files (PDFs)                      |
+| Authentication   | JWT Bearer                                   | User-scoped conversations & documents          |
+| LLM              | External API (OpenAI GPT-4o / Grok / Claude) | Generation & embeddings                        |
+| Document Parsing | LlamaParse (design)                          | Tables, images, layout-aware extraction        |
+| Embeddings       | Cohere embed-v4 (multilingual)               | Cross-lingual semantic search                  |
+| Re-ranking       | Cohere rerank-3                              | Precision boost & hallucination reduction      |
+| CI / Deployment  | GitHub Actions · Docker                      | Lint, test, build pipeline                     |
 
 ## Project Structure
